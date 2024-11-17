@@ -1,0 +1,43 @@
+/* login.css */
+
+body {
+    background-color: #f7f9fc;
+    position: relative;
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    overflow: hidden; /* Para evitar el scroll si es necesario */
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('../image/imagenFondo.jpg') center center / cover no-repeat;
+    filter: blur(8px);
+    opacity: 0.5; /* Ajusta la opacidad para un tono más blanco */
+    z-index: -1; /* Coloca la imagen detrás de otros elementos */
+}
+
+.container {
+    position: relative;
+    z-index: 1; /* Para que la tarjeta se muestre sobre la imagen de fondo */
+}
+
+.card {
+    width: 300px;
+    background: rgba(255, 255, 255, 0.85); /* Fondo blanco semitransparente */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.text-center {
+    font-weight: bold;
+}

@@ -1,0 +1,125 @@
+* {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield; /* Para Firefox */
+    -webkit-appearance: none; /* Para Chrome y Safari */
+    appearance: none; /* Estándar para navegadores compatibles */
+}
+
+  /* Navegadores basados en WebKit */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+body {
+    display: block;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #e0f2ff;
+}
+
+.formContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.container {
+    width: 100%;
+    max-width: 500px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: center;
+    color: #2a75bb;
+}
+
+.tab {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 15px;
+}
+
+.tab button {
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #2a75bb;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    outline: none;
+}
+
+.tab button:hover {
+    background-color: #1d5c99;
+}
+
+.tab {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 15px;
+}
+.tab.hidden {
+    display: none;
+}
+form button, .return-button {
+    margin-top: 10px;
+}
+.form-section {
+    margin-bottom: 15px;
+}
+.dropdown-container {
+    margin-bottom: 15px;
+}
+#newClientSection {
+    display: none;
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+    color: #2a75bb;
+}
+
+form input, form select, form textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #2a75bb;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+form button:hover {
+    background-color: #1d5c99;
+}
+
+.confirmation {
+    margin-top: 15px;
+    text-align: center;
+    color: #2a75bb;
+    font-weight: bold;
+}
+

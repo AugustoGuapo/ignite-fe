@@ -1,0 +1,80 @@
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+h2 {
+    color: #007bff;
+}
+
+footer {
+    background-color: #f8f9fa;
+    padding: 1rem;
+}
+
+footer p {
+    margin: 0;
+}
+
+.navbar-brand {
+    font-weight: bold;
+}
+
+.nav-link.active {
+    font-weight: bold;
+}
+
+.list-group-item {
+    margin-bottom: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.list-group-item:hover {
+    background-color: #f0f0f0;
+}
+
+.detalle-panel {
+    width: 0;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #f8f9fa;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+    overflow-y: auto;
+    transition: width 0.3s ease;
+    z-index: 1000;
+    padding: 20px;
+}
+
+.detalle-panel.open {
+    width: 300px;
+}
+
+.btn-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: none;
+    background: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.detalle-panel h3 {
+    margin-top: 20px;
+}
+
+.detalle-panel p {
+    font-size: 0.9rem;
+    color: #333;
+}
+
+.btn-custom {
+    color: white; /* Letras blancas */
+    text-decoration: none; /* Sin subrayado */
+}
+
+.btn-custom:hover {
+    color: white; /* Letras blancas al pasar el ratón */
+}

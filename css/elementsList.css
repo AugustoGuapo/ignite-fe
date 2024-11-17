@@ -1,0 +1,133 @@
+body {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
+.task-details-header {
+    width: fit-content;
+}
+
+.navbar {
+    z-index: 1000;
+    position: relative;
+}
+
+.sidebar {
+    width: 250px;
+    border-right: 1px solid #dee2e6;
+    background-color: #f8f9fa;
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.project-item {
+    cursor: pointer;
+    position: relative;
+    padding-left: 20px;
+    background-color: #a8b9da;
+    transition: background-color 0.3s;
+    user-select: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.project-item:hover {
+    background-color: #7489b4;
+}
+
+.caret-icon {
+    transition: transform 0.3s;
+    margin-right: 10px;
+}
+
+.caret-icon.rotated {
+    transform: rotate(90deg);
+}
+
+.close-icon {
+    color: #dc3545;
+    cursor: pointer;
+    font-weight: bold;
+    margin-left: auto;
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.task-list {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.2s ease; /* Animación más rápida */
+}
+
+.task-list.open {
+    max-height: 500px; /* Ajusta según sea necesario */
+}
+
+.task-item {
+    user-select: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+}
+
+.task-details-header {
+    display: flex;
+    align-items: center; /* Alinea verticalmente al centro */
+}
+
+.task-details-header h4 {
+    margin: 0; /* Elimina el margen por defecto */
+    margin-right: 5px; /* Agrega un pequeño margen a la derecha */
+}
+
+.task-item:hover {
+    background-color: #e0e0b0;
+}
+
+.fade-in {
+    animation: fadeIn 0.s ease forwards;
+}
+
+.task-details-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+/* Estilo para el botón cerrar, si es necesario */
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #333;
+    transition: color 0.3s;
+}
+
+.close-btn:hover {
+    color: #9e6c6c; /* Cambia de color al pasar el cursor */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.navbar {
+    background-color: #f9f3e8 !important; /* Cambia este valor por el color que desees */
+}

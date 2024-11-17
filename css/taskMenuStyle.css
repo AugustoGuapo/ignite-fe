@@ -1,0 +1,123 @@
+body {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
+.project-group {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.task-item {
+    margin-left: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    margin-top: 10px;
+    border-radius: 5px;
+    background-color: #e9ecef;
+}
+
+.task-item h4 {
+    margin: 0;
+    color: #333;
+}
+
+.project-group h3 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    color: #007bff;
+}
+
+
+.navbar {
+    z-index: 1000;
+    position: relative;
+    background-color: #f9f3e8 !important; /* Cambia este valor por el color que desees */
+}
+
+.navbar .nav-item .nav-link {
+    font-weight: 500;
+}
+
+.btn-custom {
+    margin-left: 10px;
+}
+
+.navbar-brand {
+    font-weight: bold;
+}
+
+.nav-link.active {
+    font-weight: bold;
+}
+
+.task-list {
+    background-color: #f8f9fa;
+    border-right: 1px solid #ddd;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.task-details {
+    display: none;
+    height: calc(100vh - 56px);
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    position: absolute;
+    top: 56px;
+    right: 0;
+    width: 66.6667%;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    transform: translateX(100%);
+    opacity: 0;
+}
+
+.task-details.show {
+    display: block;
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+#taskDetailContainer {
+    display: none;
+    max-height: calc(100vh - 56px);
+    overflow-y: auto;
+    background-color: #fff;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    position: fixed;
+    top: 56px;
+    right: 0;
+    width: 66.6667%;
+    transition: transform 0.3s ease-in-out;
+    transform: translateX(100%);
+}
+
+#taskDetailContainer.show {
+    display: block;
+    transform: translateX(0);
+}
+
+
+
+.alert {
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+.alert:hover {
+    opacity: 0.9;
+}
