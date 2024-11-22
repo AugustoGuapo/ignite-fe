@@ -116,6 +116,7 @@ body {
 .alert {
     margin-bottom: 5px;
     cursor: pointer;
+    list-style: none;
 }
 
 .alert:hover {

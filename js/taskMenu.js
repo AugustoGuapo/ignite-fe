@@ -10,19 +10,6 @@ const VALUE_COMPLETE = 3;
 
 const cardClassTypeByStatus = ["alert-danger", "alert-primary", "alert-warning", "alert-success"];
 
-/*function mostrarLista(tareas) {
-    const taskList = document.getElementById("taskList");
-    taskList.innerHTML = ""; // Limpiar la lista antes de mostrar
-    tareas.forEach(tarea => {
-        const tareaDiv = document.createElement("div");
-        tareaDiv.className = "alert";
-        tareaDiv.classList.add(tarea.status === VALUE_UNASSIGNED ? "alert-danger" :cardClassTypeByStatus[tarea.status]);
-        tareaDiv.textContent = tarea.name;
-        tareaDiv.onclick = () => mostrarDetalles(tarea); // Hacer clic en el item para mostrar detalles
-        taskList.appendChild(tareaDiv);
-    });
-}*/
-
 function mostrarDetalles(tarea) {
     const taskDetailContainer = document.getElementById("taskDetailContainer");
     const taskDetail = document.getElementById("taskDetail");
@@ -70,6 +57,7 @@ function mostrarDetalles(tarea) {
             Array.from(fileInput.files).forEach((file, index) => {
                 formData.append(`file${index}`, file);
             });
+            console.log(formData)
 
             try {
                 const response = await fetch('https://ignite-be.onrender.com/tasks', {
@@ -130,7 +118,7 @@ function mostrarDetalles(tarea) {
 
 function agruparTareasPorProyecto(tareas) {
     return tareas.reduce((agrupadas, tarea) => {
-        const proyectoId = tarea.idProject;
+        const proyectoId = tarea.project;
         if (!agrupadas[proyectoId]) {
             agrupadas[proyectoId] = [];
         }
@@ -142,32 +130,29 @@ function agruparTareasPorProyecto(tareas) {
 // Función para mostrar la lista de tareas agrupadas
 function mostrarLista(tareasAgrupadas) {
     const taskList = document.getElementById("taskList");
-    taskList.innerHTML = ''; // Limpiar lista anterior
+    taskList.innerHTML = ''; 
 
     for (const proyectoId in tareasAgrupadas) {
         const tareasDelProyecto = tareasAgrupadas[proyectoId];
 
-        // Crear un contenedor para el proyecto
         const proyectoContainer = document.createElement("div");
         proyectoContainer.classList.add("project-container");
 
-        // Crear el encabezado del proyecto
         const proyectoHeader = document.createElement("h5");
-        proyectoHeader.innerText = `Proyecto ID: ${proyectoId}`;  // Aquí puedes agregar un nombre de proyecto si tienes uno
+        proyectoHeader.innerText = `Proyecto ID: ${proyectoId}`;
         proyectoContainer.appendChild(proyectoHeader);
 
-        // Crear la lista de tareas del proyecto
         const tareasList = document.createElement("ul");
-        console.log(tareasDelProyecto)
         tareasDelProyecto.forEach(tarea => {
             const tareaItem = document.createElement("li");
-            tareaItem.classList.add("list-group-item");
+            tareaItem.classList.add("alert");
+            tareaItem.classList.add(tarea.status === VALUE_UNASSIGNED ? "alert-danger" :cardClassTypeByStatus[tarea.status]);
             tareaItem.innerHTML = `
                 <strong>${tarea.name}</strong><br>
                 ${tarea.description}<br>
-                <small>Fecha de entrega: ${new Date(tarea.deliveryDate).toLocaleDateString()}</small>
+                <small>Fecha de entrega: ${new Date(tarea.delivery_date).toLocaleDateString()}</small>
             `;
-            tareaItem.addEventListener("click", () => mostrarDetalleTarea(tarea));
+            tareaItem.addEventListener("click", () => mostrarDetalles(tarea));
             tareasList.appendChild(tareaItem);
         });
 
@@ -190,16 +175,22 @@ document.getElementById("closeBtn").addEventListener("click", function() {
     }, { once: true }); // Usar { once: true } para que el evento se ejecute solo una vez
 });
 
+function ordenarTareasAgrupadas(tareasAgrupadas) {
+    for (const proyectoId in tareasAgrupadas) {
+        tareasAgrupadas[proyectoId].sort((a, b) => new Date(a.delivery_date) - new Date(b.delivery_date));
+    }
+}
+
 
 // Mostrar la lista al cargar la página
 document.addEventListener("DOMContentLoaded", async function() {
-    const tareas = await fetchData('https://ignite-be.onrender.com/tasks').then(data => { 
-        return data.sort((a, b) => new Date(a.deliveryDate) - new Date(b.deliveryDate)); 
-    });
+    
     validateSession();
     addLogoutButton();
+
+    const tareas = await fetchData('https://ignite-be.onrender.com/tasks').then(data => { return data; });
     const tareasPorProyecto = agruparTareasPorProyecto(tareas);
-    console.log(tareasPorProyecto)
+    ordenarTareasAgrupadas(tareasPorProyecto);
     mostrarLista(tareasPorProyecto);});
 
 function validateSession() {
@@ -255,7 +246,7 @@ function closeSession() {
     localStorage.removeItem('userType');
     
     // Redirigir al usuario a la página de inicio de sesión
-    window.location.href = 'login.html';
+    window.location.href = '../login.html';
 }
 
 window.closeSession = closeSession
