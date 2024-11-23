@@ -5,7 +5,8 @@ import { obtenerEstadoTarea } from "./utils.js";
 const VALUE_UNASSIGNED = 0;
 const VALUE_ASSIGNED = 1;
 const VALUE_IN_PROCESS = 2;
-const VALUE_COMPLETE = 3;
+const VALUE_IN_REVIEW = 3;
+const VALUE_COMPLETE = 4;
 
 
 const cardClassTypeByStatus = ["alert-danger", "alert-primary", "alert-warning", "alert-success"];
@@ -30,6 +31,7 @@ function mostrarDetalles(tarea) {
                 <button id="finishButton" class="btn btn-success" disabled>Terminar</button>
             </div>`;
         
+        
         const commentText = document.getElementById("commentText");
         const fileInput = document.getElementById("fileInput");
         const finishButton = document.getElementById("finishButton");
@@ -41,7 +43,7 @@ function mostrarDetalles(tarea) {
         fileInput.addEventListener("change", function() {
             finishButton.disabled = commentText.value.trim() === "" || fileInput.files.length === 0;
         });
-    }
+    } 
 
     // Añadir evento para el botón "Terminar"
     const finishButton = document.getElementById("finishButton");
@@ -153,10 +155,83 @@ function mostrarLista(tareasAgrupadas) {
                 <small>Fecha de entrega: ${new Date(tarea.delivery_date).toLocaleDateString()}</small>
             `;
             tareaItem.addEventListener("click", () => mostrarDetalles(tarea));
+
             tareasList.appendChild(tareaItem);
         });
 
         proyectoContainer.appendChild(tareasList);
+        document.addEventListener("DOMContentLoaded", async function () {
+            const tareas = await fetchData('https://ignite-be.onrender.com/tasks').then(data => {
+                return data.sort((a, b) => new Date(a.deliveryDate) - new Date(b.deliveryDate));
+            });
+        
+            validateSession();
+            addLogoutButton();
+            mostrarListaConBoton(tareas); // Usamos esta función que incluye el botón "Revisar"
+        });
+        
+        /**
+         * Mostrar lista con agrupamiento por proyecto y agregar botón "Revisar" a tareas en revisión
+         */
+        function mostrarListaConBoton(tareas) {
+            const contenedorLista = document.getElementById("taskList");
+            contenedorLista.innerHTML = "";
+        
+            // Agrupar tareas por proyecto
+            const tareasPorProyecto = tareas.reduce((grupo, tarea) => {
+                const idProyecto = tarea.projectId || "Sin Proyecto";
+                if (!grupo[idProyecto]) grupo[idProyecto] = [];
+                grupo[idProyecto].push(tarea);
+                return grupo;
+            }, {});
+        
+            // Recorrer proyectos y mostrar tareas
+            for (const [proyectoId, tareas] of Object.entries(tareasPorProyecto)) {
+                const projectContainer = document.createElement("div");
+                projectContainer.classList.add("project-container");
+        
+                // Encabezado del proyecto
+                const projectHeader = document.createElement("h5");
+                projectHeader.textContent = `Proyecto ID: ${proyectoId}`;
+                projectContainer.appendChild(projectHeader);
+        
+                // Lista de tareas del proyecto
+                tareas.forEach(tarea => {
+                    const tareaItem = document.createElement("div");
+                    tareaItem.classList.add("list-group-item");
+        
+                    // Información de la tarea
+                    tareaItem.innerHTML = `
+                        <h6>${tarea.name}</h6>
+                        <p>${tarea.description}</p>
+                        <p><strong>Fecha de entrega:</strong> ${tarea.deliveryDate ? new Date(tarea.deliveryDate).toLocaleDateString() : "Sin fecha"}</p>
+                        <p><strong>Estado:</strong> ${tarea.status}</p>
+                    `;
+        
+                    // Agregar botón "Revisar" si el estado es "Revisión"
+                    console.log(tarea)
+        
+                    if (tarea.status.toLowerCase() === "en revision") {
+                        const revisarBtn = document.createElement("button");
+                        revisarBtn.textContent = "Revisar";
+                        revisarBtn.classList.add("btn", "btn-warning", "mt-2");
+        
+                        // Agregar evento para el botón
+                        revisarBtn.addEventListener("click", function () {
+                            alert(`Revisando la tarea: ${tarea.name}`);
+                            // Aquí puedes agregar lógica adicional, como redireccionar o actualizar el estado
+                        });
+        
+                        tareaItem.appendChild(revisarBtn);
+                    }
+        
+                    projectContainer.appendChild(tareaItem);
+                });
+        
+                contenedorLista.appendChild(projectContainer);
+            }
+        }
+        
         taskList.appendChild(proyectoContainer);
     }
 }

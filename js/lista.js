@@ -9,23 +9,6 @@ document.addEventListener("DOMContentLoaded", function() {
     const projectList = document.getElementById("projectList");
     const mainContent = document.querySelector(".main-content");
 
-    /*const listProjects = [
-        { "id": "1", "idCliente": "1", "name": "Propuesta construcción puente", "description": "Realizar propuesta investigativa para grupo de estudiantes de filosofia.", "costo": 213.8 },
-        { "id": "2", "idCliente": "2", "name": "Trabajo de postGrado", "description": "Realizar parte de libro modulable", "costo": 213.8 },
-        { "id": "3", "idCliente": "3", "name": "Propuesta de grado Ing Software", "description": "Propuesta de grado de estudiantes de ing de software", "costo": 213.8 },
-        { "id": "4", "idCliente": "4", "name": "Bibliografias 2", "description": "Realizar bibliografia de estudiantes de ing industrial", "costo": 213.8 },
-        { "id": "5", "idCliente": "5", "name": "Arqueologia - libro", "description": "Realizar propuesta investigativa para grupo de estudiantes de filosofia.", "costo": 213.8 },
-        { "id": "6", "idCliente": "6", "name": "Modularidad de libros", "description": "Realizar parte de libro modulable", "costo": 213.8 },
-        { "id": "7", "idCliente": "7", "name": "Propuesta de grado Ing Software", "description": "Propuesta de grado de estudiantes de ing de software", "costo": 213.8 }
-    ];
-
-    const listTask = [
-        { "id": "1234", "idProject": "1", "idDesigned": "0123", "name": "Propuesta Investigativa 1", "description": "Realizar propuesta investigativa para grupo de estudiantes de filosofia.", "status": 3 },
-        { "id": "1235", "idProject": "2", "idDesigned": "0124", "name": "Modularidad de libros", "description": "Realizar parte de libro modulable", "status": 3 },
-        { "id": "1236", "idProject": "3", "idDesigned": "0125", "name": "Propuesta de grado Ing Software", "description": "Propuesta de grado de estudiantes de ing de software", "status": 3 },
-        { "id": "1237", "idProject": "4", "idDesigned": "0123", "name": "Bibliografias 2", "description": "Realizar bibliografia de estudiantes de ing industrial ", "status": 1 }
-    ];*/
-
     async function mostrarProyectos() {
         projectList.innerHTML = "";
         const listProjects = await fetchData('https://ignite-be.onrender.com/projects').then(data => { return data; });
@@ -115,6 +98,19 @@ document.addEventListener("DOMContentLoaded", function() {
                 <p>${tarea.description}</p>
                 <p><strong>Estado:</strong> ${obtenerEstadoTarea(tarea.status)}</p>
             `;
+
+            if (tarea.status === 3) {
+                const revisarBtn = document.createElement("button");
+                revisarBtn.textContent = "Revisar";
+                revisarBtn.classList.add("btn", "btn-primary", "mt-2");
+        
+                // Agregar evento para el botón
+                revisarBtn.addEventListener("click", function () {
+                    alert(`Revisando la tarea: ${tarea.name}`);
+                    // Aquí puedes agregar lógica adicional, como redireccionar o actualizar el estado
+                });
+                mainContent.appendChild(revisarBtn);
+            }
     
             // Agrega el evento de clic al botón de cerrar
             document.getElementById("closeDetails").addEventListener("click", () => {
