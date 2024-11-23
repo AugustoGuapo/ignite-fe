@@ -4,6 +4,21 @@ body {
     margin: 0;
 }
 
+.btn-warning {
+    background-color:#007bff;
+    border-color: #007bff;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.btn-warning:hover {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: #fff;
+}
+
 .project-group {
     margin-bottom: 20px;
     padding: 10px;
@@ -36,7 +51,7 @@ body {
 .navbar {
     z-index: 1000;
     position: relative;
-    background-color: #f9f3e8 !important; /* Cambia este valor por el color que desees */
+    background-color: #f9f3e8 !important; 
 }
 
 .navbar .nav-item .nav-link {
