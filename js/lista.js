@@ -1,5 +1,5 @@
 import { fetchData } from "./restclient.js";
-import { obtenerEstadoTarea } from "./utils.js";
+import { obtenerEstadoTarea, validateSession, addLogoutButton } from "./utils.js";
 
 document.addEventListener("DOMContentLoaded", function() {
 
@@ -9,27 +9,9 @@ document.addEventListener("DOMContentLoaded", function() {
     const projectList = document.getElementById("projectList");
     const mainContent = document.querySelector(".main-content");
 
-    /*const listProjects = [
-        { "id": "1", "idCliente": "1", "name": "Propuesta construcción puente", "description": "Realizar propuesta investigativa para grupo de estudiantes de filosofia.", "costo": 213.8 },
-        { "id": "2", "idCliente": "2", "name": "Trabajo de postGrado", "description": "Realizar parte de libro modulable", "costo": 213.8 },
-        { "id": "3", "idCliente": "3", "name": "Propuesta de grado Ing Software", "description": "Propuesta de grado de estudiantes de ing de software", "costo": 213.8 },
-        { "id": "4", "idCliente": "4", "name": "Bibliografias 2", "description": "Realizar bibliografia de estudiantes de ing industrial", "costo": 213.8 },
-        { "id": "5", "idCliente": "5", "name": "Arqueologia - libro", "description": "Realizar propuesta investigativa para grupo de estudiantes de filosofia.", "costo": 213.8 },
-        { "id": "6", "idCliente": "6", "name": "Modularidad de libros", "description": "Realizar parte de libro modulable", "costo": 213.8 },
-        { "id": "7", "idCliente": "7", "name": "Propuesta de grado Ing Software", "description": "Propuesta de grado de estudiantes de ing de software", "costo": 213.8 }
-    ];
-
-    const listTask = [
-        { "id": "1234", "idProject": "1", "idDesigned": "0123", "name": "Propuesta Investigativa 1", "description": "Realizar propuesta investigativa para grupo de estudiantes de filosofia.", "status": 3 },
-        { "id": "1235", "idProject": "2", "idDesigned": "0124", "name": "Modularidad de libros", "description": "Realizar parte de libro modulable", "status": 3 },
-        { "id": "1236", "idProject": "3", "idDesigned": "0125", "name": "Propuesta de grado Ing Software", "description": "Propuesta de grado de estudiantes de ing de software", "status": 3 },
-        { "id": "1237", "idProject": "4", "idDesigned": "0123", "name": "Bibliografias 2", "description": "Realizar bibliografia de estudiantes de ing industrial ", "status": 1 }
-    ];*/
-
     async function mostrarProyectos() {
         projectList.innerHTML = "";
         const listProjects = await fetchData('https://ignite-be.onrender.com/projects').then(data => { return data; });
-        console.log(listProjects);
         const listTask = await fetchData('https://ignite-be.onrender.com/tasks').then(data => { return data; });
     
         listProjects.forEach(proyecto => {
@@ -126,61 +108,3 @@ document.addEventListener("DOMContentLoaded", function() {
     // Llama a la función para mostrar proyectos al cargar la página
     mostrarProyectos();
 });
-
-function validateSession() {
-    const user = localStorage.getItem('idUser');
-
-    console.log(user);
-
-    if (!user) {
-        window.location.href = 'login.html';
-    } else {
-        const userType = localStorage.getItem("userType");
-        chargeByType(userType);
-    }
-}
-
-function chargeByType(userType) {
-    if (userType === "adm") {
-        viewAdmin();
-    } else if (userType === "emp") {
-        viewEmployee();
-    }
-}
-
-function viewAdmin() {
-    console.log("Admin user detected");
-    navItems.innerHTML += `
-        <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="elementsList.html">Proyectos</a>
-        </li>
-    `;
-}
-
-function viewEmployee() {
-    console.log("Employee user detected");
-    navItems.innerHTML += `
-        <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="listTask/taskMenu.html">Lista de Tareas</a>
-        </li>
-    `;
-}
-
-function addLogoutButton() {
-    navItems.innerHTML += `
-        <li class="nav-item">
-            <a class="btn btn-danger btn-custom" onClick="closeSession()">Cerrar sesión</a>
-        </li>
-    `;
-}
-
-function closeSession() {
-    // Limpiar cualquier información de sesión almacenada en el localStorage
-    localStorage.removeItem('idUser');
-    localStorage.removeItem('userType');
-    
-    // Redirigir al usuario a la página de inicio de sesión
-    window.location.href = 'login.html';
-}
-
-window.closeSession = closeSession

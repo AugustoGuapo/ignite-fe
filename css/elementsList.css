@@ -35,6 +35,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin: 0;
 }
 
 .project-item:hover {
@@ -75,6 +76,7 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
     cursor: pointer;
+    margin: 0;
 }
 
 .task-details-header {
