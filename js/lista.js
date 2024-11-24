@@ -3,6 +3,7 @@ import { obtenerEstadoTarea, validateSession, addLogoutButton } from "./utils.js
 
 document.addEventListener("DOMContentLoaded", function() {
 
+    let showDetailProyect = false
     validateSession();
     addLogoutButton();
 
@@ -11,8 +12,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
     async function mostrarProyectos() {
         projectList.innerHTML = "";
-        const listProjects = await fetchData('https://ignite-be.onrender.com/projects').then(data => { return data; });
-        const listTask = await fetchData('https://ignite-be.onrender.com/tasks').then(data => { return data; });
+        const listProjects = await fetchData('https://ignite-be.onrender.com/projects');
+        const listTask = await fetchData('https://ignite-be.onrender.com/tasks');
     
         listProjects.forEach(proyecto => {
             const nuevoProyecto = document.createElement("li");
@@ -36,13 +37,13 @@ document.addEventListener("DOMContentLoaded", function() {
             nuevaTareaElemento.classList.add("list-group-item", "task-item");
             nuevaTareaElemento.textContent = "Nueva tarea";
     
-            nuevaTareaElemento.addEventListener("click", function() {
+            nuevaTareaElemento.addEventListener("click", function () {
                 localStorage.setItem('currentProjectId', proyecto.id);
                 localStorage.setItem('currentProjectName', proyecto.name);
-                
+    
                 window.location.href = '../addTaskForm/formularioAgregarTarea.html';
             });
-            
+    
             taskList.appendChild(nuevaTareaElemento);
     
             const tareasDelProyecto = listTask.filter(task => task.project === proyecto.id);
@@ -51,19 +52,24 @@ document.addEventListener("DOMContentLoaded", function() {
                 nuevoElemento.classList.add("list-group-item", "task-item");
                 nuevoElemento.textContent = tarea.name;
     
-                nuevoElemento.addEventListener("click", function() {
+                nuevoElemento.addEventListener("click", function () {
                     mostrarDetallesTarea(tarea);
                 });
     
                 taskList.appendChild(nuevoElemento);
             });
     
-            nuevoProyecto.addEventListener("click", function() {
+            // Evento para mostrar/ocultar tareas y mostrar detalles del proyecto
+            nuevoProyecto.addEventListener("click", function () {
+                // Mostrar/ocultar la lista de tareas
                 taskList.classList.toggle("open");
                 caretIcon.classList.toggle("rotated");
+    
+                // Mostrar los detalles del proyecto
+                mostrarDetallesProyecto(proyecto);
             });
     
-            closeIcon.addEventListener("click", function(event) {
+            closeIcon.addEventListener("click", function (event) {
                 taskList.classList.remove("open");
                 caretIcon.classList.remove("rotated");
                 event.stopPropagation();
@@ -74,12 +80,33 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
     
-    
+    function mostrarDetallesProyecto(proyecto) {
+        // mainContent.classList.remove("fade-in");
+        if(showDetailProyect === false) {
+            setTimeout(() => {
+                mainContent.classList.add("fade-in");
+                mainContent.innerHTML = `
+                    <h2>${proyecto.name}</h2>
+                    <p><strong>Costo:</strong> ${proyecto.cost || "No disponible"} COP </p>
+                    <p><strong>Restante:</strong> ${proyecto.debt || "No disponible"} COP </p>
+                    <p><strong>Descripción:</strong> ${proyecto.description || "No disponible"}</p>
+                    <h3>Pagos:</h3>
+                    <ul>
+                        ${proyecto.pagos?.map(pago => `<li>${pago}</li>`).join('') || "<li>No hay pagos registrados</li>"}
+                    </ul>
+                `;
+            }, 10);
+            showDetailProyect = true
+        } else {
+            mainContent.innerHTML = "";
+            showDetailProyect = false
+        }
+    }
     
 
     function mostrarDetallesTarea(tarea) {
         // Elimina cualquier animación activa
-        mainContent.classList.remove("fade-in");
+        // mainContent.classList.remove("fade-in");
     
         setTimeout(() => {
             // Añade la clase de animación y muestra los detalles de la tarea
