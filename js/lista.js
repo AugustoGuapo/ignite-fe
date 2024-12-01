@@ -93,54 +93,61 @@ document.addEventListener("DOMContentLoaded", function () {
     function mostrarDetallesProyecto(proyecto) {
         if (!showDetailProyect || idCurrent !== proyecto.id) {
             mainContent.classList.remove("fade-in");
+    
+            // Invertir los pagos solo una vez si aún no tienen un marcador de inversión
+            if (proyecto.payments && !proyecto._paymentsReversed) {
+                proyecto.payments.reverse(); // Invierte los pagos
+                proyecto._paymentsReversed = true; // Marca como invertidos
+            }
+    
             setTimeout(() => {
                 mainContent.classList.add("fade-in");
                 mainContent.innerHTML = `
-                <h2>${proyecto.name}</h2>
-                <p><strong>Costo:</strong> ${proyecto.cost || "No disponible"} COP</p>
-                <p><strong>Restante:</strong> ${proyecto.debt || "No disponible"} COP</p>
-                <p><strong>Descripción:</strong> ${proyecto.description || "No disponible"}</p>
-                <div class="payments-container">
-                    <h3>Pagos:</h3>
-                    <div class="main-card">
-                        ${
-                            proyecto.payments?.reverse().map((pago) => `
-                            <div class="payment-card">
-                                <p><strong>Método:</strong> ${pago.payment_method}</p>
-                                <p><strong>Monto:</strong> $${pago.amount}</p>
-                                <p><strong>Fecha:</strong> ${pago.payment_date}</p>
-                            </div>`).join("") || "<p>No hay pagos registrados</p>"
-                        }
+                    <h2>${proyecto.name}</h2>
+                    <p><strong>Costo:</strong> ${proyecto.cost || "No disponible"} COP</p>
+                    <p><strong>Restante:</strong> ${proyecto.debt || "No disponible"} COP</p>
+                    <p><strong>Descripción:</strong> ${proyecto.description || "No disponible"}</p>
+                    <div class="payments-container">
+                        <h3>Pagos:</h3>
+                        <div class="main-card">
+                            ${
+                                proyecto.payments?.map((pago) => `
+                                <div class="payment-card">
+                                    <p><strong>Método:</strong> ${pago.payment_method}</p>
+                                    <p><strong>Monto:</strong> $${pago.amount}</p>
+                                    <p><strong>Fecha:</strong> ${pago.payment_date}</p>
+                                </div>`).join("") || "<p>No hay pagos registrados</p>"
+                            }
+                        </div>
+                        <button class="btn btn-primary" onclick="dialogLoadPay(${proyecto.id})">Agregar Pago</button>
                     </div>
-                    <button class="btn btn-primary" onclick="dialogLoadPay(${proyecto.id})">Agregar Pago</button>
-                </div>
-                <div id="pay-dialog" class="dialog-overlay">
-                    <div class="dialog-content">
-                        <h4>Agregar Pago</h4>
-                        <form id="pay-form">
-                            <div class="form-group">
-                                <label for="amount">Monto:</label>
-                                <input type="number" id="amount" class="form-control" step="0.01" placeholder="Ingrese el monto" required />
-                            </div>
-                            <div class="form-group">
-                                <label for="paymentMethod">Método de Pago:</label>
-                                <select id="paymentMethod" class="form-control" required>
-                                    <option value="BankTransfer">Transferencia Bancaria</option>
-                                    <option value="Cash">Efectivo</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="paymentDate">Fecha:</label>
-                                <input type="date" id="paymentDate" class="form-control" value="${new Date().toISOString().split("T")[0]}" required />
-                            </div>
-                            <button type="button" class="btn btn-success" onclick="submitPayment()">Guardar</button>
-                            <button type="button" class="btn btn-secondary" onclick="closePayDialog()">Cancelar</button>
-                        </form>
+                    <div id="pay-dialog" class="dialog-overlay">
+                        <div class="dialog-content">
+                            <h4>Agregar Pago</h4>
+                            <form id="pay-form">
+                                <div class="form-group">
+                                    <label for="amount">Monto:</label>
+                                    <input type="number" id="amount" class="form-control" step="0.01" placeholder="Ingrese el monto" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="paymentMethod">Método de Pago:</label>
+                                    <select id="paymentMethod" class="form-control" required>
+                                        <option value="BankTransfer">Transferencia Bancaria</option>
+                                        <option value="Cash">Efectivo</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="paymentDate">Fecha:</label>
+                                    <input type="date" id="paymentDate" class="form-control" value="${new Date().toISOString().split("T")[0]}" required />
+                                </div>
+                                <button type="button" class="btn btn-success" onclick="submitPayment()">Guardar</button>
+                                <button type="button" class="btn btn-secondary" onclick="closePayDialog()">Cancelar</button>
+                            </form>
+                        </div>
                     </div>
-                </div>
-            `;
+                `;
             }, 10);
-
+    
             showDetailProyect = true;
             idCurrent = proyecto.id;
         } else {
@@ -150,13 +157,14 @@ document.addEventListener("DOMContentLoaded", function () {
             showDetailProyect = false;
         }
     }
+    
 
     function mostrarDetallesTarea(tarea) {
         setTimeout(() => {
             mainContent.classList.add("fade-in");
             mainContent.innerHTML = `
                 <button id="closeDetails" class="close-btn">X</button><br>
-                <h4>${tarea.name}</h4>
+                <h2>${tarea.name}</h2>
                 <p>${tarea.description}</p>
                 <p><strong>Estado:</strong> ${obtenerEstadoTarea(tarea.status)}</p>
             `;
