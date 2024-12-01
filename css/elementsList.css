@@ -149,3 +149,131 @@ body {
     margin-top: 10px;
     padding-left: 20px;
 }
+
+.payments-container {
+    margin: 10px;
+}
+
+.main-card {
+    display: flex;
+    flex-wrap: nowrap; /* Evita que los elementos salten a la siguiente línea */
+    overflow-x: auto; /* Habilita desplazamiento horizontal si no caben todos */
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.payment-card {
+    flex: 0 0 auto; /* Asegura que todos los *cards* sean del mismo tamaño */
+    width: 200px; /* Ajusta según tus necesidades */
+    margin: 0 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.payment-card p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #333;
+}
+
+.main-card::-webkit-scrollbar {
+    height: 8px; /* Altura del scrollbar */
+}
+
+.main-card::-webkit-scrollbar-thumb {
+    background: #888; /* Color de la barra */
+    border-radius: 4px;
+}
+
+.main-card::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Color al pasar el mouse */
+}
+
+/* Styles for dialog add Payments*/
+/* Estilo del overlay */
+.dialog-overlay {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none; /* Inicialmente oculto */
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro */
+    z-index: 9999; /* Asegura que esté sobre otros elementos */
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.dialog-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px; /* Ajusta el tamaño según sea necesario */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Cuando el diálogo está visible */
+.dialog-overlay.open .dialog-content {
+    transform: translateY(0); /* Se desliza hacia arriba */
+}
+
+/* Personalizado dialog */
+/* Estilo del modal */
+.modal {
+    display: none; /* Oculto por defecto */
+    position: fixed; /* Para que se quede fijo en la pantalla */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Asegura que esté encima de todo */
+  }
+  
+  /* Contenido del modal */
+  .modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    text-align: center;
+  }
+  
+  /* Botón de cerrar */
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 30px;
+    cursor: pointer;
+  }
+  
+  /* Botones */
+  .btn {
+    padding: 10px 20px;
+    margin: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .btn-primary {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .btn-secondary {
+    background-color: #6c757d;
+    color: white;
+  }
+  
