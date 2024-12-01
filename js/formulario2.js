@@ -1,6 +1,61 @@
 import { fetchData } from "./restclient.js";
 import { validateSession, addLogoutButton } from "./utils.js";
 
+const fileUploadInput = document.getElementById("fileUpload");
+const uploadedFilesList = document.getElementById("uploadedFilesList");
+
+let files = [];
+
+renderFilesList();
+
+fileUploadInput.addEventListener("change", (event) => {
+    const selectedFiles = Array.from(event.target.files);
+    handleFiles(selectedFiles);
+});
+
+function handleFiles(selectedFiles) {
+    selectedFiles.forEach((file) => {
+        if (!files.some((f) => f.name === file.name)) {
+            files.push(file); // Agregar a la lista
+        }
+    });
+    renderFilesList();
+}
+
+// Renderiza la lista de archivos
+function renderFilesList() {
+    uploadedFilesList.innerHTML = "";
+
+    if (files.length === 0) {
+        uploadedFilesList.textContent = "No se han seleccionado archivos o plantillas";
+        return;
+    }
+
+    files.forEach((file, index) => {
+        const fileItem = document.createElement("div");
+        fileItem.classList.add("file-item");
+        fileItem.innerHTML = `
+            <span title="${file.name}">${file.name}</span>
+            <button type="button" data-index="${index}" class="delete-button">×</button>
+        `;
+        uploadedFilesList.appendChild(fileItem);
+    });
+
+    // Añadir funcionalidad a los botones eliminar
+    document.querySelectorAll(".delete-button").forEach((button) => {
+        button.addEventListener("click", (event) => {
+            const index = parseInt(event.target.dataset.index, 10);
+            removeFile(index);
+        });
+    });
+}
+
+// Eliminar archivo de la lista
+function removeFile(index) {
+    files.splice(index, 1);
+    renderFilesList();
+}
+
 document.addEventListener("DOMContentLoaded", function() {
 
     validateSession();
@@ -61,6 +116,27 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
+    function sendImages() {
+        if (files.length === 0) {
+            alert("No se han seleccionado archivos para procesar.");
+            return;
+        }
+    
+        // Procesar los archivos
+        files.forEach((file) => {
+            console.log(`Procesando archivo: ${file.name}`);
+            // Aquí puedes realizar acciones como subir al servidor:
+            // uploadFile(file);
+        });
+    
+        // Mostrar mensaje de éxito
+        alert(`Se han procesado ${files.length} archivo(s) correctamente.`);
+    
+        // Limpiar la lista de archivos
+        files = [];
+        renderFilesList(); // Actualizar el mensaje predeterminado
+    }
+
     function submitTask() {
         const taskName = document.getElementById("taskName").value;
         const taskDescription = document.getElementById("taskDescription").value;
@@ -78,6 +154,14 @@ document.addEventListener("DOMContentLoaded", function() {
                 project_id: projectId,
                 price: taskPrice
             });
+
+            /*if(files) {
+                const resImage = fetchData('https://ignite-be.onrender.com/tasks', 'POST', {
+                    id_task: res.task_id
+                });
+                sendImages()
+            }*/
+
             alert("Tarea asignada con éxito.");
             localStorage.removeItem('currentProjectId')
             localStorage.removeItem('currentProjectName')

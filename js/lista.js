@@ -164,7 +164,7 @@ document.addEventListener("DOMContentLoaded", function () {
             mainContent.classList.add("fade-in");
             mainContent.innerHTML = `
                 <button id="closeDetails" class="close-btn">X</button><br>
-                <h4>${tarea.name}</h4>
+                <h2>${tarea.name}</h2>
                 <p>${tarea.description}</p>
                 <p><strong>Estado:</strong> ${obtenerEstadoTarea(tarea.status)}</p>
             `;
