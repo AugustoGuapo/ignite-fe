@@ -1,8 +1,9 @@
-export async function fetchData(url, method = 'GET', data = null) {
+export async function fetchData(url, token = '', method = 'GET', data = null) {
     const options = {
         method,
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`, // Añade el token al header
         }
     };
 
@@ -13,7 +14,7 @@ export async function fetchData(url, method = 'GET', data = null) {
     try {
         const response = await fetch(url, options);
         if (!response.ok) {
-            throw new Error('${response.status} ${response.statusText}');
+            throw new Error(`${response.status} ${response.statusText}`);
         }
         console.log('Solicitud exitosa:', response);
         return await response.json();
@@ -21,7 +22,4 @@ export async function fetchData(url, method = 'GET', data = null) {
         console.error('Error en la solicitud:', error);
         throw error;
     }
-};
-
-export default fetchData
-
+}

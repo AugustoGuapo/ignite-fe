@@ -154,26 +154,36 @@ body {
     margin: 10px;
 }
 
-.main-card {
-    display: flex;
-    flex-wrap: nowrap; /* Evita que los elementos salten a la siguiente línea */
-    overflow-x: auto; /* Habilita desplazamiento horizontal si no caben todos */
+.main-content {
+    flex: 1; /* Ocupa todo el espacio disponible en el contenedor principal */
     padding: 20px;
-    border: 1px solid #ccc;
+    margin-top: 20px;
+    overflow-y: auto; /* Permite desplazamiento vertical si el contenido es demasiado largo */
+    position: relative; /* Para que los elementos se ubiquen dentro de este contenedor */
+    background-color: #fff;
     border-radius: 10px;
-    background-color: #f9f9f9;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    height: calc(100vh - 60px); /* Resta el tamaño de la barra superior (ajústalo según sea necesario) */
+    max-height: calc(100vh - 60px); /* Evita que se expanda más de la ventana */
+}
+
+.main-content .fade-in {
+    animation: fadeIn 0.3s ease forwards; /* Agrega animación al cargar contenido */
+}
+.payments-container {
+    margin-top: 20px;
+    overflow: hidden; /* Evita desbordamientos inesperados */
+    height: auto; /* Ajusta dinámicamente su tamaño */
 }
 
 .payment-card {
-    flex: 0 0 auto; /* Asegura que todos los *cards* sean del mismo tamaño */
-    width: 200px; /* Ajusta según tus necesidades */
-    margin: 0 10px;
+    flex: 0 0 auto; /* Los cards mantienen un tamaño fijo */
+    width: 200px; /* Ajusta el tamaño según sea necesario */
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 8px;
-    background-color: #ffffff;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
 
@@ -181,6 +191,17 @@ body {
     margin: 5px 0;
     font-size: 14px;
     color: #333;
+}
+.main-card {
+    display: flex;
+    flex-wrap: nowrap; /* Mantiene los elementos en una fila */
+    overflow-x: auto; /* Permite desplazamiento horizontal para los cards */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    gap: 10px; /* Espacio entre los elementos */
+    max-height: 200px; /* Limita la altura de los cards */
 }
 
 .main-card::-webkit-scrollbar {
@@ -277,3 +298,15 @@ body {
     color: white;
   }
   
+  .task-edit-form input,
+  .task-edit-form textarea,
+  .task-edit-form select {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 8px;
+    width: 100%;
+}
+    
+.task-edit-form button {
+    margin-top: 10px;
+}

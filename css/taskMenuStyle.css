@@ -122,3 +122,39 @@ body {
 .alert:hover {
     opacity: 0.9;
 }
+
+#fileCardsContainer {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    max-height: 150px; /* Opcional: Limitar la altura del contenedor */
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.card {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    min-width: 200px;
+    height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.file-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+.delete-file-btn {
+    align-self: flex-end;
+}
