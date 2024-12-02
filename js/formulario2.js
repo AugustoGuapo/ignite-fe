@@ -36,7 +36,7 @@ function renderFilesList() {
         fileItem.classList.add("file-item");
         fileItem.innerHTML = `
             <span title="${file.name}">${file.name}</span>
-            <button type="button" data-index="${index}" class="delete-button">×</button>
+            <button type="button" data-index="${index}" class="delete-button">Eliminar</button>
         `;
         uploadedFilesList.appendChild(fileItem);
     });
@@ -116,26 +116,39 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    function sendImages() {
+    function sendImages(projectId) {
         if (files.length === 0) {
             alert("No se han seleccionado archivos para procesar.");
             return;
         }
     
-        // Procesar los archivos
-        files.forEach((file) => {
-            console.log(`Procesando archivo: ${file.name}`);
-            // Aquí puedes realizar acciones como subir al servidor:
-            // uploadFile(file);
+        const formData = new FormData();
+    
+        files.forEach((file, index) => {
+            formData.append(`files`, file); // Asignar un nombre único a cada archivo
         });
+        
     
-        // Mostrar mensaje de éxito
-        alert(`Se han procesado ${files.length} archivo(s) correctamente.`);
-    
-        // Limpiar la lista de archivos
-        files = [];
-        renderFilesList(); // Actualizar el mensaje predeterminado
+        // Realizar la solicitud
+        fetch(`https://ignite-be.onrender.com/resources/projects/${projectId}/insert`, {
+            method: "POST",
+            body: formData
+        })
+            .then((response) => {
+                if (response.ok) {
+                    alert(`Se han enviado ${files.length} archivo(s) correctamente.`);
+                    files = [];
+                    renderFilesList();
+                } else {
+                    alert("Error al enviar las imágenes. Inténtalo nuevamente.");
+                }
+            })
+            .catch((error) => {
+                console.error("Error al enviar imágenes:", error);
+                alert("Ocurrió un error durante la solicitud.");
+            });
     }
+    
 
     function submitTask() {
         const taskName = document.getElementById("taskName").value;
@@ -155,12 +168,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 price: taskPrice
             });
 
-            /*if(files) {
-                const resImage = fetchData('https://ignite-be.onrender.com/tasks', 'POST', {
-                    id_task: res.task_id
-                });
-                sendImages()
-            }*/
+            if(files) {
+                sendImages(projectId)
+            }
 
             alert("Tarea asignada con éxito.");
             localStorage.removeItem('currentProjectId')

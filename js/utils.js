@@ -35,20 +35,21 @@ function closeSession() {
 }
 
 export function validateSession() {
-    const user = localStorage.getItem('idUser');
+    const session = localStorage.getItem('user_token');
+    const role = localStorage.getItem('userRole');
 
-    if (!user) {
+    if (!session || !role) {
         window.location.href = '../login.html';
     } else {
-        const userType = localStorage.getItem("userType");
+        const userType = localStorage.getItem("user_role");
         chargeByType(userType);
     }
 }
 
 function chargeByType(userType) {
-    if (userType === "adm") {
+    if (userType === "ADM") {
         viewAdmin();
-    } else if (userType === "emp") {
+    } else if (userType === "EMP") {
         viewEmployee();
     }
 }
