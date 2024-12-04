@@ -25,7 +25,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
             // Guardar el token en el localStorage y redirigir a la página principal
             localStorage.setItem('user_token', result.token);
             
-            localStorage.setItem('userRole', result.role);
+            localStorage.setItem('user_role', result.role);
             window.location.href = 'main.html';
         }
     } catch (error) {

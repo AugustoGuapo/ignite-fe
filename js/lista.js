@@ -14,8 +14,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     async function mostrarProyectos() {
         projectList.innerHTML = "";
-        const listProjects = await fetchData("https://ignite-be.onrender.com/projects", localStorage.getItem("user_token"));
-        const listTask = await fetchData("https://ignite-be.onrender.com/tasks",  localStorage.getItem("user_token"));
+        const listProjects = await fetchData("https://ignite-be.onrender.com/projects");
+        const listTask = await fetchData("https://ignite-be.onrender.com/tasks");
 
         listProjects.forEach((proyecto) => {
             const nuevoProyecto = document.createElement("li");

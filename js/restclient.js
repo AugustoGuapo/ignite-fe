@@ -1,15 +1,21 @@
-export async function fetchData(url, token = '', method = 'GET', data = null) {
+export async function fetchData(url, method = 'GET', data = null) {
     const options = {
         method,
         headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`, // Añade el token al header
         }
     };
 
     if (data) {
         options.body = JSON.stringify(data);
     }
+
+    let token = localStorage.getItem('user_token');
+
+    if(token) {
+        options.headers['Authorization'] = `Bearer ${token}`;
+    }
+    
 
     try {
         const response = await fetch(url, options);
