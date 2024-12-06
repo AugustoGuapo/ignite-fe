@@ -1,9 +1,7 @@
-/* Estilo general */
 body {
     font-family: 'Arial', sans-serif;
 }
 
-/* Hero Section */
 .hero-section {
     background: linear-gradient(135deg, #007bff, #0056b3);
     padding: 5rem 0;
@@ -19,7 +17,6 @@ body {
     margin-top: 1rem;
 }
 
-/* Sección de características */
 .features {
     background-color: #f8f9fa;
 }
@@ -53,7 +50,6 @@ body {
     margin-top: 10px;
 }
 
-/* Pie de página */
 footer {
     background-color: #0056b3;
     color: white;

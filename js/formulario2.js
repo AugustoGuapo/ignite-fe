@@ -16,13 +16,12 @@ fileUploadInput.addEventListener("change", (event) => {
 function handleFiles(selectedFiles) {
     selectedFiles.forEach((file) => {
         if (!files.some((f) => f.name === file.name)) {
-            files.push(file); // Agregar a la lista
+            files.push(file);
         }
     });
     renderFilesList();
 }
 
-// Renderiza la lista de archivos
 function renderFilesList() {
     uploadedFilesList.innerHTML = "";
 
@@ -133,6 +132,7 @@ document.addEventListener("DOMContentLoaded", function() {
         
     
         // Realizar la solicitud
+        /**
         fetch(`https://ignite-be.onrender.com/resources/projects/${projectId}/insert`, {
             method: "POST",
             body: formData
@@ -149,7 +149,7 @@ document.addEventListener("DOMContentLoaded", function() {
             .catch((error) => {
                 console.error("Error al enviar imágenes:", error);
                 alert("Ocurrió un error durante la solicitud.");
-            });
+            });*/
     }
     
 

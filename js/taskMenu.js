@@ -1,7 +1,6 @@
 import { fetchData } from "./restclient.js";
 import { obtenerEstadoTarea, addLogoutButton, validateSession } from "./utils.js";
 
-// Simulación de datos JSON recibidos
 const VALUE_UNASSIGNED = 0;
 const VALUE_ASSIGNED = 1;
 const VALUE_IN_PROCESS = 2;
@@ -14,12 +13,10 @@ function mostrarDetalles(tarea) {
     const taskDetailContainer = document.getElementById("taskDetailContainer");
     const taskDetail = document.getElementById("taskDetail");
 
-    // Mostrar la tarea seleccionada
     taskDetail.innerHTML = `<h5>${tarea.name}</h5>
                             <p>${tarea.description}</p>
                             <p><strong>Estado:</strong> ${obtenerEstadoTarea(tarea.status)}</p>`;
 
-    // Añadir opciones según el estado de la tarea
     if (tarea.status === VALUE_ASSIGNED) {
         taskDetail.innerHTML += '<button id="startButton" class="btn btn-primary">Iniciar</button>';
     } else if (tarea.status === VALUE_IN_PROCESS) {
@@ -47,67 +44,60 @@ function mostrarDetalles(tarea) {
         function handleFiles(selectedFiles) {
             selectedFiles.forEach((file) => {
                 if (!files.some((f) => f.name === file.name)) {
-                    files.push(file); // Agregar a la lista
+                    files.push(file);
                 }
             });
         }
     
-        // Objeto auxiliar para almacenar los archivos seleccionados
         const dataTransfer = new DataTransfer();
     
-        // Actualizar las tarjetas con los archivos seleccionados
         function updateFileCards() {
-            fileCardsContainer.innerHTML = ""; // Limpiar el contenedor
+            fileCardsContainer.innerHTML = "";
             Array.from(dataTransfer.files).forEach((file, index) => {
                 const card = document.createElement("div");
                 card.className = "card";
-                card.style.minWidth = "200px"; // Ancho fijo para las tarjetas
-                card.style.flexShrink = "0"; // Evitar que se reduzca en flexbox
-                card.style.height = "120px"; // Altura fija para las tarjetas
+                card.style.minWidth = "200px";
+                card.style.flexShrink = "0";
+                card.style.height = "120px";
                 card.innerHTML = `
                     <div class="card-body d-flex flex-column justify-content-between">
                         <span class="file-name text-truncate" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${file.name}</span>
                         <button type="button" class="btn btn-danger btn-sm delete-file-btn mt-2" data-index="${index}">Eliminar</button>
                     </div>
                 `;
-                fileCardsContainer.insertBefore(card, fileCardsContainer.firstChild); // Insertar al principio (más reciente)
+                fileCardsContainer.insertBefore(card, fileCardsContainer.firstChild);
             });
             updateFinishButtonState();
         }
     
-        // Agregar archivos al dataTransfer sin reemplazar los existentes
         fileInput.addEventListener("change", function () {
             Array.from(fileInput.files).forEach(file => {
-                dataTransfer.items.add(file); // Añadir cada archivo nuevo al objeto DataTransfer
+                dataTransfer.items.add(file);
             });
-            fileInput.files = dataTransfer.files; // Actualizar el input con los archivos combinados
-            updateFileCards(); // Actualizar las tarjetas
+            fileInput.files = dataTransfer.files;
+            updateFileCards();
         });
     
-        // Eliminar un archivo seleccionado
         fileCardsContainer.addEventListener("click", function (event) {
             if (event.target.classList.contains("delete-file-btn")) {
                 const fileIndex = event.target.getAttribute("data-index");
-                dataTransfer.items.remove(fileIndex); // Eliminar el archivo del DataTransfer
-                fileInput.files = dataTransfer.files; // Actualizar el input
-                updateFileCards(); // Actualizar las tarjetas
+                dataTransfer.items.remove(fileIndex);
+                fileInput.files = dataTransfer.files;
+                updateFileCards();
             }
         });
     
-        // Habilitar el botón "Terminar" solo si hay archivos y un comentario
         function updateFinishButtonState() {
             finishButton.disabled = dataTransfer.files.length === 0;
         }
     
     }        
 
-    // Mostrar el contenedor de detalles con animación
     taskDetailContainer.style.display = 'block';
     setTimeout(() => {
         taskDetailContainer.classList.add("show");
     }, 10);
 
-    // Botón "Iniciar" para cambiar estado
     const startButton = document.getElementById("startButton");
     if (startButton) {
         startButton.addEventListener("click", async function () {
@@ -131,7 +121,7 @@ function mostrarDetalles(tarea) {
             alert("Tarea finalizada");
             const formData = new FormData();
             files.forEach((file, index) => {
-                formData.append(`files`, file); // Asignar un nombre único a cada archivo
+                formData.append(`files`, file);
             });
             const headers = {"Authorization": `Bearer ${localStorage.getItem('user_token')}`};
             fetch(`https://ignite-be.onrender.com/resources/tasks/${tarea.id}/results/insert`, {
@@ -178,7 +168,6 @@ function agruparTareasPorProyecto(tareas) {
     }, {});
 }
 
-// Función para mostrar la lista de tareas agrupadas
 function mostrarLista(tareasAgrupadas) {
     const taskList = document.getElementById("taskList");
     taskList.innerHTML = '';
@@ -212,18 +201,16 @@ function mostrarLista(tareasAgrupadas) {
     }
 }
 
-// Cerrar detalles de la tarea con animación
 document.getElementById("closeBtn").addEventListener("click", function () {
     const taskDetailContainer = document.getElementById("taskDetailContainer");
 
-    taskDetailContainer.classList.remove("show"); // Inicia el proceso de ocultar
+    taskDetailContainer.classList.remove("show");
 
-    // Esperar a que termine la animación y luego ocultar el panel
     taskDetailContainer.addEventListener('transitionend', function () {
         if (!taskDetailContainer.classList.contains('show')) {
-            taskDetailContainer.style.display = 'none'; // Ocultar el contenedor después de la animación
+            taskDetailContainer.style.display = 'none';
         }
-    }, { once: true }); // Usar { once: true } para que el evento se ejecute solo una vez
+    }, { once: true });
 });
 
 function ordenarTareasAgrupadas(tareasAgrupadas) {
@@ -232,7 +219,6 @@ function ordenarTareasAgrupadas(tareasAgrupadas) {
     }
 }
 
-// Mostrar la lista al cargar la página
 document.addEventListener("DOMContentLoaded", async function () {
     validateSession();
     addLogoutButton();
