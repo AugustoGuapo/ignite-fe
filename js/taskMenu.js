@@ -24,7 +24,6 @@ function mostrarDetalles(tarea) {
     } else if (tarea.status === VALUE_IN_PROCESS) {
         taskDetail.innerHTML += `
             <div>
-                <textarea id="commentText" placeholder="Comentarios" class="form-control mb-2"></textarea>
                 <input type="file" id="fileInput" class="form-control mb-2" multiple />
                 <div id="fileCardsContainer" class="d-flex flex-nowrap gap-2 overflow-auto mb-3" style="white-space: nowrap; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
                     <!-- Contenedor horizontal para tarjetas -->
@@ -33,7 +32,6 @@ function mostrarDetalles(tarea) {
             </div>
         `;
     
-        const commentText = document.getElementById("commentText");
         const fileInput = document.getElementById("fileInput");
         const fileCardsContainer = document.getElementById("fileCardsContainer");
         const finishButton = document.getElementById("finishButton");
@@ -82,10 +80,9 @@ function mostrarDetalles(tarea) {
     
         // Habilitar el botón "Terminar" solo si hay archivos y un comentario
         function updateFinishButtonState() {
-            finishButton.disabled = commentText.value.trim() === "" || dataTransfer.files.length === 0;
+            finishButton.disabled = dataTransfer.files.length === 0;
         }
     
-        commentText.addEventListener("input", updateFinishButtonState);
     }        
 
     // Mostrar el contenedor de detalles con animación
@@ -103,19 +100,57 @@ function mostrarDetalles(tarea) {
                 status: VALUE_IN_PROCESS,
                 employee_id: tarea.assignee,
             });
-            alert("La tarea ha sido iniciada.");
+            alert("La tarea ha sido iniciada");
             window.location.href = "/listTask/taskMenu.html";
         });
+    }
+    const finishButton = document.getElementById("finishButton");
+    if(finishButton) {
+        finishButton.addEventListener("click", async function () {
+            await fetchData('https://ignite-be.onrender.com/tasks', 'POST', {
+                task_id: tarea.id,
+                status: VALUE_COMPLETE,
+            });
+            alert("Tarea finalizada");
+
+            fetch(`https://ignite-be.onrender.com/resources/tasks/${tarea.id}/insert`, {
+            method: "POST",
+            body: formData
+        })
+            .then((response) => {
+                if (response.ok) {
+                    alert(`Se han enviado ${files.length} archivo(s) correctamente.`);
+                    files = [];
+                    renderFilesList();
+                } else {
+                    alert("Error al enviar las imágenes. Inténtalo nuevamente.");
+                }
+            })
+            .catch((error) => {
+                console.error("Error al enviar imágenes:", error);
+                alert("Ocurrió un error durante la solicitud.");
+            });
+        });
+        window.location.href = "/listTask/taskMenu.html";
     }
 }
 
 function agruparTareasPorProyecto(tareas) {
     return tareas.reduce((agrupadas, tarea) => {
+        
         const proyectoId = tarea.project;
+        const userId = localStorage.getItem('user_id');
+        console.log(tarea)
+        if (tarea.assignee !== Number(userId)) {
+            return agrupadas;
+        }
         if (!agrupadas[proyectoId]) {
             agrupadas[proyectoId] = [];
         }
+
+
         agrupadas[proyectoId].push(tarea);
+        
         return agrupadas;
     }, {});
 }

@@ -68,6 +68,9 @@ document.addEventListener("DOMContentLoaded", function() {
         console.log(employees);
         const select = document.getElementById("employeeDropdown");
         employees.forEach(employee => {
+            if (employee.role !== "EMP") {
+                return;
+            }
             const option = document.createElement("option");
             option.value = employee.id;
             option.textContent = employee.name;

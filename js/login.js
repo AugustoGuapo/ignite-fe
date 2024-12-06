@@ -21,10 +21,10 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
         }); // Aquí estamos pasando los headers adicionales
 
         if (result !== null) {
-            console.log("imprimiendo token: " + result);
+            console.log(result);
             // Guardar el token en el localStorage y redirigir a la página principal
             localStorage.setItem('user_token', result.token);
-            
+            localStorage.setItem('user_id', result.user_id);
             localStorage.setItem('user_role', result.role);
             window.location.href = 'main.html';
         }
