@@ -15,7 +15,8 @@ document.addEventListener("DOMContentLoaded", function () {
     async function mostrarProyectos() {
         projectList.innerHTML = "";
         const listProjects = await fetchData("https://ignite-be.onrender.com/projects");
-        const listTask = await fetchData("https://ignite-be.onrender.com/tasks");
+
+        listProjects.sort((a, b) => a.id - b.id);
 
         listProjects.forEach((proyecto) => {
             const nuevoProyecto = document.createElement("li");
@@ -53,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             taskList.appendChild(nuevaTareaElemento);
 
-            const tareasDelProyecto = listTask.filter((task) => task.project === proyecto.id);
+            const tareasDelProyecto = proyecto.tasks;
             tareasDelProyecto.forEach((tarea) => {
                 const nuevoElemento = document.createElement("li");
                 nuevoElemento.classList.add("list-group-item", "task-item");
@@ -125,6 +126,29 @@ document.addEventListener("DOMContentLoaded", function () {
                             <button class="btn btn-primary" onclick="dialogLoadPay(${proyecto.id})">Agregar Pago</button>
                         </div>
                     </div>
+                    <div id="pay-dialog" class="dialog-overlay">
+                        <div class="dialog-content">
+                            <h4>Agregar Pago</h4>
+                            <form id="pay-form">
+                                <div class="form-group">
+                                    <label for="amount">Monto:</label>
+                                    <input type="number" id="amount" class="form-control" step="0.01" placeholder="Ingrese el monto" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="paymentMethod">Método de Pago:</label>
+                                    <select id="paymentMethod" class="form-control" required>
+                                        <option value="BankTransfer">Transferencia Bancaria</option>
+                                        <option value="Cash">Efectivo</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="paymentDate">Fecha:</label>
+                                    <input type="date" id="paymentDate" class="form-control" value="${new Date().toISOString().split("T")[0]}" required />
+                                </div>
+                                <button type="button" class="btn btn-success" onclick="submitPayment()">Guardar</button>
+                                <button type="button" class="btn btn-secondary" onclick="closePayDialog()">Cancelar</button>
+                            </form>
+                            </div></div>
                 `;
             }, 10);
     
@@ -194,14 +218,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     async function guardarCambiosTarea(taskId) {
         try {
-            await fetchData('https://ignite-be.onrender.com/tasks', localStorage.getItem("userToken"), 'POST', {
+            console.log("Guardando cambios en la tarea", taskId);
+            await fetchData('https://ignite-be.onrender.com/tasks', 'POST', {
                 task_id: taskId,
                 name: document.getElementById("taskName").value,
                 description: document.getElementById("taskDescription").value,
             });
             setTimeout(() => {
                 location.reload();
-            }, 1500);
+            }, 1500000);
         } catch (error) {
             console.error("Error al actualizar la tarea:", error);
             alert("No se pudo actualizar la tarea. Inténtalo de nuevo.");
@@ -244,12 +269,12 @@ function submitPayment() {
         return;
     }
 
-    const result = fetchData("https://ignite-be.onrender.com/payments", localStorage.getItem("userToken"), "POST", {
+    const result = fetchData("https://ignite-be.onrender.com/payments", "POST", {
         project_id: idCurrent,
         amount: amount,
         payment_date: paymentDate,
         payment_method: paymentMethod
-    }, localStorage.getItem('user_token') );
+    });
 
     console.log({ result });
     closePayDialog();

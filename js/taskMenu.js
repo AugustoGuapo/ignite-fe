@@ -111,11 +111,20 @@ function mostrarDetalles(tarea) {
 
 function agruparTareasPorProyecto(tareas) {
     return tareas.reduce((agrupadas, tarea) => {
+        
         const proyectoId = tarea.project;
+        const userId = localStorage.getItem('user_id');
+        console.log(tarea)
+        if (tarea.assignee !== Number(userId)) {
+            return agrupadas;
+        }
         if (!agrupadas[proyectoId]) {
             agrupadas[proyectoId] = [];
         }
+
+
         agrupadas[proyectoId].push(tarea);
+        
         return agrupadas;
     }, {});
 }

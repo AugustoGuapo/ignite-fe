@@ -22,7 +22,6 @@ export async function fetchData(url, method = 'GET', data = null) {
         if (!response.ok) {
             throw new Error(`${response.status} ${response.statusText}`);
         }
-        console.log('Solicitud exitosa:', response);
         return await response.json();
     } catch (error) {
         console.error('Error en la solicitud:', error);

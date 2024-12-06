@@ -27,8 +27,7 @@ export function addLogoutButton() {
 }
 
 function closeSession() {
-    localStorage.removeItem('idUser');
-    localStorage.removeItem('userType');
+    localStorage.clear();
     
 
     window.location.href = '../login.html';
@@ -36,7 +35,7 @@ function closeSession() {
 
 export function validateSession() {
     const session = localStorage.getItem('user_token');
-    const role = localStorage.getItem('userRole');
+    const role = localStorage.getItem('user_role');
 
     if (!session || !role) {
         window.location.href = '../login.html';
