@@ -134,7 +134,7 @@ function mostrarDetalles(tarea) {
                 formData.append(`files`, file); // Asignar un nombre único a cada archivo
             });
             const headers = {"Authorization": `Bearer ${localStorage.getItem('user_token')}`};
-            fetch(`https://ignite-be.onrender.com/resources/tasks/${tarea.id}/insert`, {
+            fetch(`https://ignite-be.onrender.com/resources/tasks/${tarea.id}/results/insert`, {
             method: "POST",
             body: formData,
             headers: headers
