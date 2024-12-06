@@ -8,6 +8,7 @@ const VALUE_IN_PROCESS = 2;
 const VALUE_COMPLETE = 3;
 
 const cardClassTypeByStatus = ["alert-danger", "alert-primary", "alert-warning", "alert-success"];
+let files = [];
 
 function mostrarDetalles(tarea) {
     const taskDetailContainer = document.getElementById("taskDetailContainer");
@@ -35,6 +36,21 @@ function mostrarDetalles(tarea) {
         const fileInput = document.getElementById("fileInput");
         const fileCardsContainer = document.getElementById("fileCardsContainer");
         const finishButton = document.getElementById("finishButton");
+
+        
+
+        fileInput.addEventListener("change", (event) => {
+            const selectedFiles = Array.from(event.target.files);
+            handleFiles(selectedFiles);
+        });
+        
+        function handleFiles(selectedFiles) {
+            selectedFiles.forEach((file) => {
+                if (!files.some((f) => f.name === file.name)) {
+                    files.push(file); // Agregar a la lista
+                }
+            });
+        }
     
         // Objeto auxiliar para almacenar los archivos seleccionados
         const dataTransfer = new DataTransfer();
@@ -106,32 +122,39 @@ function mostrarDetalles(tarea) {
     }
     const finishButton = document.getElementById("finishButton");
     if(finishButton) {
+
         finishButton.addEventListener("click", async function () {
             await fetchData('https://ignite-be.onrender.com/tasks', 'POST', {
                 task_id: tarea.id,
                 status: VALUE_COMPLETE,
             });
             alert("Tarea finalizada");
-
+            const formData = new FormData();
+            files.forEach((file, index) => {
+                formData.append(`files`, file); // Asignar un nombre único a cada archivo
+            });
+            const headers = {"Authorization": `Bearer ${localStorage.getItem('user_token')}`};
             fetch(`https://ignite-be.onrender.com/resources/tasks/${tarea.id}/insert`, {
             method: "POST",
-            body: formData
+            body: formData,
+            headers: headers
         })
             .then((response) => {
                 if (response.ok) {
                     alert(`Se han enviado ${files.length} archivo(s) correctamente.`);
-                    files = [];
                     renderFilesList();
                 } else {
                     alert("Error al enviar las imágenes. Inténtalo nuevamente.");
+                    
                 }
             })
             .catch((error) => {
+                console.log(response);
                 console.error("Error al enviar imágenes:", error);
                 alert("Ocurrió un error durante la solicitud.");
             });
+            //window.location.href = "/listTask/taskMenu.html";
         });
-        window.location.href = "/listTask/taskMenu.html";
     }
 }
 
