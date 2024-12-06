@@ -10,8 +10,8 @@
     <script type="module" src="./js/scripts.js"></script>
 </head>
 <body>
-
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <!-- Barra de navegación -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Ignite</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -22,58 +22,52 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="#">Inicio</a>
                     </li>
-                    <!-- Enlaces dinámicos según el tipo de usuario -->
                 </ul>
             </div>
         </div>
     </nav>
 
-    <div class="d-flex">
-        <div class="container mt-4">
-            <div class="row d-flex justify-content-between">
-                <div class="col-md-8">
-                    <div class="container mt-4">
-                        <div class="diagrama">
-                            <h2>Diagrama de Trabajos completados</h2>
-                            <br>
-                            <div class="mb-4">
-                                <span class="label">Enero:</span>
-                                <h3>10</h3>
-                                <div class="bar" style="width: 0%;"></div>
-                            </div>
-                            <div class="mb-4">
-                                <span class="label">Febrero:</span>
-                                <h3>8</h3>
-                                <div class="bar" style="width: 0%;"></div>
-                            </div>
-                            <div class="mb-4">
-                                <span class="label">Marzo:</span>
-                                <h3>12</h3>
-                                <div class="bar" style="width: 0%;"></div>
-                            </div>
-                            <div class="mb-4">
-                                <span class="label">Abril:</span>
-                                <h3>9</h3>
-                                <div class="bar" style="width: 0%;"></div>
-                            </div>
-                            <div class="mb-4">
-                                <span class="label">Mayo:</span>
-                                <h3>15</h3>
-                                <div class="bar" style="width: 0%;"></div>
-                            </div>
-                        </div>
+    <!-- Hero Section -->
+    <header class="hero-section text-white text-center">
+        <div class="container">
+            <h1 class="display-4">¡Bienvenido a Ignite!</h1>
+            <p class="lead">La herramienta definitiva para gestionar tus tareas y proyectos.</p>
+            <a href="#" class="btn btn-light btn-lg mt-3">Comenzar ahora</a>
+        </div>
+    </header>
+
+    <!-- Sección de características -->
+    <section class="features py-5">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-4">
+                    <div class="feature-box">
+                        <img src="https://via.placeholder.com/100" alt="Crear tareas" class="mb-3">
+                        <h3>Crear Tareas</h3>
+                        <p>Organiza y crea tareas en pocos pasos para mantener el control de tus proyectos.</p>
                     </div>
                 </div>
-        
                 <div class="col-md-4">
-                    <div class="p-4 mb-3 bg-light rounded">
-                        <h4>Acerca de</h4>
-                        <p>Herramienta creada para llevar control de trabajos y procesos.</p>
+                    <div class="feature-box">
+                        <img src="https://via.placeholder.com/100" alt="Seguimiento" class="mb-3">
+                        <h3>Seguimiento en Tiempo Real</h3>
+                        <p>Monitorea el progreso de tus proyectos con visualizaciones dinámicas.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-box">
+                        <img src="https://via.placeholder.com/100" alt="Colaborar" class="mb-3">
+                        <h3>Colabora con tu Equipo</h3>
+                        <p>Comparte proyectos y trabaja en equipo para lograr objetivos comunes.</p>
                     </div>
                 </div>
             </div>
-        </div>    
-    </div>
-    
+        </div>
+    </section>
+
+    <!-- Pie de página -->
+    <footer class="bg-primary text-white text-center py-3">
+        <p>© 2024 Ignite. Todos los derechos reservados.</p>
+    </footer>
 </body>
 </html>
