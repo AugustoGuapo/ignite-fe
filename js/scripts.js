@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function() {
     console.log("Initializing tool");
 
     validateSession();
-    addLogoutButton(); // Llamar a la función para agregar el botón de cerrar sesión
+    addLogoutButton();
     const bars = [
         { element: document.querySelectorAll('.bar')[0], width: '70%' },
         { element: document.querySelectorAll('.bar')[1], width: '50%' },
