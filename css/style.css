@@ -1,80 +1,60 @@
+/* Estilo general */
 body {
     font-family: 'Arial', sans-serif;
 }
 
-h2 {
-    color: #007bff;
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    padding: 5rem 0;
 }
 
-footer {
-    background-color: #f8f9fa;
-    padding: 1rem;
-}
-
-footer p {
-    margin: 0;
-}
-
-.navbar-brand {
+.hero-section h1 {
+    font-size: 3rem;
     font-weight: bold;
 }
 
-.nav-link.active {
-    font-weight: bold;
+.hero-section p {
+    font-size: 1.2rem;
+    margin-top: 1rem;
 }
 
-.list-group-item {
-    margin-bottom: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.list-group-item:hover {
-    background-color: #f0f0f0;
-}
-
-.detalle-panel {
-    width: 0;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
+/* Sección de características */
+.features {
     background-color: #f8f9fa;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
-    overflow-y: auto;
-    transition: width 0.3s ease;
-    z-index: 1000;
+}
+
+.feature-box {
     padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
 }
 
-.detalle-panel.open {
-    width: 300px;
+.feature-box:hover {
+    transform: translateY(-10px);
 }
 
-.btn-close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    border: none;
-    background: none;
-    font-size: 1.5rem;
-    cursor: pointer;
+.feature-box img {
+    width: 100px;
+    height: 100px;
 }
 
-.detalle-panel h3 {
-    margin-top: 20px;
+.feature-box h3 {
+    color: #007bff;
+    font-weight: bold;
+    margin-top: 15px;
 }
 
-.detalle-panel p {
-    font-size: 0.9rem;
+.feature-box p {
     color: #333;
+    font-size: 0.9rem;
+    margin-top: 10px;
 }
 
-.btn-custom {
-    color: white; /* Letras blancas */
-    text-decoration: none; /* Sin subrayado */
-}
-
-.btn-custom:hover {
-    color: white; /* Letras blancas al pasar el ratón */
+/* Pie de página */
+footer {
+    background-color: #0056b3;
+    color: white;
 }
