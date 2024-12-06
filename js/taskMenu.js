@@ -151,9 +151,9 @@ function mostrarDetalles(tarea) {
             .catch((error) => {
                 console.log(response);
                 console.error("Error al enviar imágenes:", error);
-                alert("Ocurrió un error durante la solicitud.");
+
             });
-            //window.location.href = "/listTask/taskMenu.html";
+            window.location.href = "/listTask/taskMenu.html";
         });
     }
 }
